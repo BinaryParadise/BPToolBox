@@ -1,0 +1,7 @@
+directory: Example
+project: Example.xcodeproj
+sourcePaths:
+imagePaths:
+prefix: RY=BP
+ignorePaths:
+includeCategory: false
