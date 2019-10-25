@@ -1,6 +1,7 @@
-directory: Example
-project: Example.xcodeproj
+directory: ToolboxExample
+project: ToolboxExample.xcodeproj
 sourcePaths:
+  - Example
 imagePaths:
 prefix: RY=BP
 ignorePaths:
