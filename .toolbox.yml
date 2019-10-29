@@ -6,3 +6,27 @@ imagePaths:
 prefix: RY=BP
 ignorePaths:
 includeCategory: false
+bundle:
+ resources:
+  - Images.xcassets: Example
+ configurations:
+  - name: com.binaryparadise.demo1
+    product_name: 工具箱
+    team_id: 8FOLMNQA
+    schemes:
+    - name: ToolboxExample_Example
+      bundleid: com.binaryparadise.demo1
+      Debug: cbd_dev
+      Release: cbd_distribution
+    - name: ToolboxExample_Example1
+      bundleid: com.binaryparadise.demo2
+      Debug: cbd_dev1
+      Release: cbd_distribution1
+  - name: com.binaryparadise.demo2
+    product_name: Toolbox
+    team_id: CEPQGFME9
+    schemes:
+    - name: ToolboxExample_Example
+      bundleid: com.binaryparadise.demo2
+      Debug: cbd_dev
+      Release: cbd_distribution
