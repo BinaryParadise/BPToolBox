@@ -3,9 +3,9 @@ require 'fileutils'
 require 'json'
 require 'yaml'
 require 'xcodeproj'
-require_relative './lib/param'
-require_relative './lib/switch'
-require_relative './lib/confuse'
+require_relative './tbcore/param'
+require_relative './tbcore/switch'
+require_relative './tbcore/confuse'
 
 # author: Rake Yang
 # iOS工具箱
