@@ -64,7 +64,7 @@ class PBParam
     switch        切换App（马甲包）
 
 选项:
-    --config      配置文件目录（推荐, 其它参数将失效）
+    --config      配置文件目录（不带参数时，默认读取当前文件夹下的.toolbox.yml）
     "
   end
 
