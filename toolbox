@@ -7,12 +7,17 @@ require_relative './lib/param'
 require_relative './lib/switch'
 require_relative './lib/confuse'
 
+VERSION = "0.1.2"
+
 # author: Rake Yang
 # iOS工具箱
 # 2019-09-19
 class PBToolbox
   def initialize(args)
-    puts "ruby version: "+RUBY_VERSION
+    if args[0].eql?('-v')
+      puts PBUtil.info("toolbox #{VERSION} (last commit 2019-11-06)")
+      return;
+    end
     param = PBParam::new(args)
     if param.actionType.eql?(ACTION_TYPE_SWITCH)
       PBSwitch::new(param)
