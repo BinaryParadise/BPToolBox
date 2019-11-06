@@ -29,7 +29,8 @@ bundle:
     team_id: CEPQGFME9
     schemes:
     - name: ToolboxExample_Example
-      bundleid: com.binaryparadise.demo2
+      bundleid: com.binaryparadise.watchkit.extension
+      wkbundileid: com.binaryparadise.watchkit
       profiles:
         Debug: cbd_dev
         Release: cbd_distribution
