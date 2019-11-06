@@ -46,19 +46,22 @@ class PBSwitch
         buildc.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = scheme['bundleid']
         buildc.build_settings['PROVISIONING_PROFILE_SPECIFIER'] = scheme['profiles'][buildc.name]
         info_plist = buildc.build_settings['INFOPLIST_FILE'].gsub(/\$\(SRCROOT\)\//, "")
-          # App显示名称
-          `/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName #{config['product_name']}" #{info_plist}`
-          # BundleID
-          preidentifier = `/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" #{info_plist}`
-          if preidentifier.include?("$(PRODUCT_BUNDLE_IDENTIFIER)")
-          else
-            `/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier #{scheme['bundleid']}" #{info_plist}`
-          end
-          if target.product_type.eql?('com.apple.product-type.application.watchapp2')
-            # Apple Watch
-            `/usr/libexec/PlistBuddy -c "Set :WKCompanionAppBundleIdentifier #{config['name']}" #{info_plist}`
-          end
-        )}
+        # App显示名称
+        `/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName #{config['product_name']}" #{info_plist}`
+        # BundleID
+        preidentifier = `/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" #{info_plist}`
+        if preidentifier.include?("$(PRODUCT_BUNDLE_IDENTIFIER)")
+        else
+          `/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier #{scheme['bundleid']}" #{info_plist}`
+        end
+        if target.product_type.eql?('com.apple.product-type.application.watchapp2')
+          # Apple Watch
+          `/usr/libexec/PlistBuddy -c "Set :WKCompanionAppBundleIdentifier #{config['name']}" #{info_plist}`
+        elsif target.product_type.eql?('com.apple.product-type.watchkit2-extension')
+          # NSExtension
+          puts `/usr/libexec/PlistBuddy -c "Set :NSExtension:NSExtensionAttributes:WKAppBundleIdentifier #{scheme['wkbundleid']}" #{info_plist}`
+        end
+      )}
     )}
     project.save()
     copyResources(param, config)
