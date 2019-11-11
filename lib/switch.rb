@@ -59,10 +59,10 @@ class PBSwitch
           `/usr/libexec/PlistBuddy -c "Set :WKCompanionAppBundleIdentifier #{config['name']}" #{info_plist}`
         elsif target.product_type.eql?('com.apple.product-type.watchkit2-extension')
           # NSExtension
-          puts `/usr/libexec/PlistBuddy -c "Set :NSExtension:NSExtensionAttributes:WKAppBundleIdentifier #{scheme['wkbundleid']}" #{info_plist}`
+          `/usr/libexec/PlistBuddy -c "Set :NSExtension:NSExtensionAttributes:WKAppBundleIdentifier #{scheme['wkbundleid']}" #{info_plist}`
         else
           scheme['urlTypes'].each{|item| (
-            puts `/usr/libexec/PlistBuddy -c 'Set :CFBundleURLTypes:#{item.keys.first}:CFBundleURLSchemes:0 "#{item.values.first}"' #{info_plist}`
+            `/usr/libexec/PlistBuddy -c 'Set :CFBundleURLTypes:#{item.keys.first}:CFBundleURLSchemes:0 "#{item.values.first}"' #{info_plist}`
           )}
         end
       )}

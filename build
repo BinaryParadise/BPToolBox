@@ -1,0 +1,34 @@
+#!/usr/bin/ruby -W0
+require 'fileutils'
+require 'json'
+require_relative './lib/util'
+
+# author: Rake Yang
+# 发布一个版本
+# 2019-11-11
+class PBToolbox
+  def initialize(args)
+    if args.length == 0
+      showUsage()
+      return;
+    end
+
+    puts PBUtil.warn('创建目录')
+    tarname = 'toolbox-x86_64-darwin.tar.gz'
+    `mkdir bin
+    cp -rf lib bin
+    cp toolbox bin`
+    puts PBUtil.debug('开始压缩')
+    `tar -czvf #{tarname} bin
+    rm -rf bin
+    `
+    puts PBUtil.debug('打包完成 ' + `shasum -a 256 #{tarname}`)
+  end
+
+  def showUsage()
+    puts "用法: command #{PBUtil::warn('[版本号]')}"
+  end
+
+end
+
+PBToolbox::new(ARGV)

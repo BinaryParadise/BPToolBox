@@ -17,7 +17,8 @@ bundle:
     - name: ToolboxExample_Example
       bundleid: com.binaryparadise.demo1
       urlTypes:
-        - 0: rjaoeijogeijl
+        - 1: 22222222  # 索引：内容
+        - 0: 88888888
       profiles:
         Debug: cbd_dev
         Release: cbd_distribution
