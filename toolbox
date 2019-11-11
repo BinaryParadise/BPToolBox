@@ -15,7 +15,7 @@ VERSION = "0.1.3"
 class PBToolbox
   def initialize(args)
     if args[0].eql?('-v')
-      puts PBUtil.info("toolbox #{VERSION} (last commit 2019-11-06)")
+      puts PBUtil.info("toolbox #{VERSION} (last commit 2019-11-11)")
       return;
     end
     param = PBParam::new(args)
