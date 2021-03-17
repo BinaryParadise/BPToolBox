@@ -3,6 +3,7 @@ project: ToolboxExample.xcodeproj
 sourcePaths:
   - Example
 imagePaths:
+  - Example/Images.xcassets
 prefix: RY=BP
 ignorePaths:
 includeCategory: false

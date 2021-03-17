@@ -14,6 +14,12 @@ brew tap binaryparadise/formula
 brew install toolbox
 ```
 
+## 发布
+
+```bash
+./build [version]
+```
+
 ## 配置文件
 
 ```ymal

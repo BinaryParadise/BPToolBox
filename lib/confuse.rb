@@ -21,11 +21,7 @@ class PBConfuse
     @sourceFiles = param.sourceFiles
     @includeCategory = param.includeCategory
     @projectPath = param.projectPath
-    if param.actionType.eql?(ACTION_TYPE_PREFIX)
-      prefixAction(param)
-    elsif param.actionType.eql?(ACTION_TYPE_IMAGE)
-      imageAction(param)
-    end
+    prefixAction(param)
   end
 
   def prefixAction(param)
@@ -41,54 +37,6 @@ class PBConfuse
     puts PBUtil::debug("共计 #{param.sourceFiles.count} 项完成重命名...")
     replaceProject(param)
     replacePodfile(param)
-  end
-
-  def imageAction(param)
-    images = []
-    puts "正在收集信息..."
-    sleep 1
-    magick = `which magick`
-    if magick.include?('not found')
-      puts PBUtil::error('找不到命令 imagemagick 准备开始安装...')
-      `brew install imagemagick`
-      return
-    end
-    param.imagePaths.each{|item|
-    (
-      updateImage(item,images)
-    )}
-    count = 0;
-
-    puts PBUtil::info("🍺收集完成，准备处理...")
-    images.each{|item|
-    (
-      count = count + 1
-      `magick #{item} #{item}`
-      print ("正在处理...#{count}/#{images.length} #{item}").ljust(220) + " \r"
-      STDOUT.flush
-    )}
-    puts ""
-    puts PBUtil::debug("处理完成，共计 #{count} 个图片更新...")
-  end
-
-  def updateImage(sourcePath, images)
-    if !File::exist?(sourcePath)
-      return
-    end
-
-    Dir::entries(sourcePath).each{|item|
-    (
-      subPath = sourcePath+"/"+item
-      if File.directory?(subPath)
-        if !(item.eql?('.') || item.eql?('..'))
-          updateImage(subPath, images)
-        end
-      else
-        if Image_Extension.include?(File.extname(item))
-          images.push(subPath)
-        end
-      end
-    )}
   end
 
   # 替换类名前缀

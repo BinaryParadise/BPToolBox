@@ -18,6 +18,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    UIImageView *img = [[UIImageView alloc] initWithImage:[ UIImage imageNamed:@"wrapper"]];
+    [self.view addSubview:img];
 }
 
 - (void)didReceiveMemoryWarning

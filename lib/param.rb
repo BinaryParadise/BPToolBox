@@ -25,6 +25,7 @@ class PBParam
   attr_accessor:podfile     # podfile
   attr_accessor:actionType  # 命令类型
   attr_accessor:bundle  #App配置
+  attr_accessor:arrange #整理
   def initialize(args)
     @ignorePaths = []
     @sourceFiles = []
@@ -40,6 +41,7 @@ class PBParam
       properties = YAML.load_file(Pathname(configPath).to_path)
       @directory = properties['directory']
       Dir.chdir(@directory)
+      puts "目录变更: #{Dir.pwd}"
       @projectPath = properties['project']
       @sourcePaths = properties['sourcePaths']
       @ignorePaths = properties['ignorePaths']||[]
@@ -49,6 +51,7 @@ class PBParam
       @old_prefix = properties['prefix'].split("=").first
       @new_prefix = properties['prefix'].split("=").last
       @bundle = properties['bundle']
+      @arrange = args.include?("--arrange")
     else
       puts PBUtil::error("缺少参数#{Arg_Name_ConfigPath}且者找不到默认文件.toolbox.yml #{Dir.pwd}",true)
       PBParam::showUsage()
@@ -65,6 +68,7 @@ class PBParam
 
 选项:
     --config      配置文件目录（不带参数时，默认读取当前文件夹下的.toolbox.yml）
+    --arrange     整理去重
     "
   end
 

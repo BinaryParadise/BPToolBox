@@ -13,6 +13,7 @@
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
+		C946A0C02601E203000BBB92 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C946A0BF2601E203000BBB92 /* DemoViewController.swift */; };
 		CE3FD9CB2362DA1E00F8803D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE3FD9BD2362DA1E00F8803D /* InfoPlist.strings */; };
 		CE3FD9CC2362DA1E00F8803D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3FD9C22362DA1E00F8803D /* LaunchScreen.storyboard */; };
 		CE3FD9CD2362DA1E00F8803D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3FD9C42362DA1E00F8803D /* Main.storyboard */; };
@@ -40,6 +41,8 @@
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F5AE195388D20070C39A /* ToolboxExample_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToolboxExample_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		C946A0BE2601E202000BBB92 /* ToolboxExample_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToolboxExample_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		C946A0BF2601E203000BBB92 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		CE3FD9BE2362DA1E00F8803D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE3FD9BF2362DA1E00F8803D /* ToolboxExample-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ToolboxExample-Prefix.pch"; sourceTree = "<group>"; };
 		CE3FD9C02362DA1E00F8803D /* RYAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RYAppDelegate.h; sourceTree = "<group>"; };
@@ -120,6 +123,8 @@
 				CE3FD9C92362DA1E00F8803D /* RYViewController.m */,
 				CE3FD9C82362DA1E00F8803D /* ToolboxExample-Info.plist */,
 				CE3FD9BF2362DA1E00F8803D /* ToolboxExample-Prefix.pch */,
+				C946A0BF2601E203000BBB92 /* DemoViewController.swift */,
+				C946A0BE2601E202000BBB92 /* ToolboxExample_Example-Bridging-Header.h */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 				ORGANIZATIONNAME = rakeyang;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
+						LastSwiftMigration = 1240;
 						ProvisioningStyle = Manual;
 					};
 					6003F5AD195388D20070C39A = {
@@ -230,6 +236,7 @@
 				CE3FD9CE2362DA1E00F8803D /* main.m in Sources */,
 				CE3FD9D22362DA1E00F8803D /* RYAppDelegate.m in Sources */,
 				CE3FD9D12362DA1E00F8803D /* RYViewController.m in Sources */,
+				C946A0C02601E203000BBB92 /* DemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,15 +362,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/ToolboxExample-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Example/ToolboxExample-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/ToolboxExample_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -373,15 +384,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/ToolboxExample-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Example/ToolboxExample-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/ToolboxExample_Example-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -390,6 +404,7 @@
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -414,6 +429,7 @@
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",

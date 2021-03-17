@@ -13,6 +13,12 @@ class PBToolbox
       return;
     end
 
+    puts PBUtil.info("发布版本: #{args[0]}")
+    file_content = File.read('toolbox')
+    File.open('toolbox', "r+") do |aFile|
+      aFile.syswrite(file_content.gsub(/VERSION = "(\d.\d.\d)"/, "VERSION = \"#{args[0]}\""))
+    end
+
     puts PBUtil.warn('创建目录')
     tarname = 'toolbox-x86_64-darwin.tar.gz'
     `mkdir bin
