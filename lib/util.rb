@@ -1,7 +1,3 @@
-#!/usr/bin/ruby -w
-require 'fileutils'
-require 'json'
-
 # author: Rake Yang
 # 日志输出
 # 2019-10-29

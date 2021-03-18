@@ -40,15 +40,21 @@ class PBImage
     
     count = 0
     d = 0
+    completed = 0
+    repeats = {}
     confirm = []
     images.each{ |item|
     (
+      completed = completed + 1
+      print "正在处理#{completed}/#{images.count}...\r"
+      STDOUT.flush
+      checkSha256(item["path"], repeats)
       next if refs.key?(item["name"])
       count = count + 1
       name = item["name"]
       if name.scan(/(\d+)/).count > 0
         confirm.push(item)
-      else
+      else        
         `rm -rf #{item["path"]}`
         puts "删除图片 #{item["path"]}"
         d = d + 1
@@ -61,12 +67,36 @@ class PBImage
       puts PBUtil::info("#{item["name"]} => #{item["path"]}")
     )}
 
+    puts PBUtil::warn("重复图片")
+
+    repeats.each{|key,value|(
+      next if value.count <= 1
+      puts value
+    )}
+
     puts ""
     puts PBUtil::debug("处理完成，删除未引用图片 #{d}/#{count}, 待确认#{confirm.count}")
 
   end  
+  
+  # 检查重复图片
+  def checkSha256(sourcePath, repeats)
+    content = JSON.parse(File.read("#{sourcePath}/Contents.json"))
+    content["images"].each{|item|(
+      next if item["filename"].nil?
+      filePath = "#{sourcePath}/#{item["filename"]}"
+      sha256 = `shasum -a 256 '#{filePath}'`
+      if repeats.key?(sha256)
+        repeats[sha256].push(filePath)
+      else
+        repeats[sha256] = [filePath]
+      end
+    )}
+  end
 
   def extractImageRef(sourcePath, refs)
+    print "#{refs.count} \r"
+    STDOUT.flush
     Dir::entries(sourcePath).each{|item|
     (
       subPath = sourcePath+"/"+item
