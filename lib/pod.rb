@@ -3,7 +3,7 @@ require_relative './util'
 require 'json'
 require 'pathname'
 
-VERSION_REGEX = /(.version\s*=\s*")(\d+.\d+.\d+)(")/i
+VERSION_REGEX = /(.version\s*=\s*["'])(\d+.\d+.\d+)(["'])/i
 
 class PBPodUtility
     def initialize(param)
@@ -90,7 +90,7 @@ class PBPodUtility
                 cp -r #{Dir.pwd}/#{podspec} #{ENV['HOME']}/.cocoapods/repos/#{repo}/#{name}/#{new_version}
                 git add .
                 git commit -m '[Add] #{name} #{new_version}'
-                # git push
+                git push
                 `
                 puts PBUtil.debug("#{name} #{new_version} 发布成功")
             end
