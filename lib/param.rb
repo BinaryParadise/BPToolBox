@@ -7,6 +7,7 @@ Arg_Name_ConfigPath   = "--config"
 ACTION_TYPE_PREFIX  = "prefix"
 ACTION_TYPE_IMAGE   = "image"
 ACTION_TYPE_SWITCH  = "switch"
+ACTINO_TYPE_POD     = "pod"
 
 # author: Rake Yang
 # 参数、配置文件解析
@@ -26,12 +27,17 @@ class PBParam
   attr_accessor:actionType  # 命令类型
   attr_accessor:bundle  #App配置
   attr_accessor:arrange #整理
+  attr_accessor:params #参数
   def initialize(args)
     @ignorePaths = []
     @sourceFiles = []
     @prefixMap = Hash.new
 
-    @actionType = args[0]
+    @actionType = args[0]    
+    if [ACTINO_TYPE_POD].include?(@actionType)
+      @params = args[1,args.length-1]
+      return
+    end
     if @actionType.nil? || ![ACTION_TYPE_IMAGE, ACTION_TYPE_SWITCH, ACTION_TYPE_PREFIX].include?(@actionType)
       showUsage()
       return
@@ -65,6 +71,7 @@ class PBParam
     image         修改图片hash
     prefix        修改类目前缀,暂不支持内部类
     switch        切换App（马甲包）
+    pod           发布到私有仓库
 
 选项:
     --config      配置文件目录（不带参数时，默认读取当前文件夹下的.toolbox.yml）

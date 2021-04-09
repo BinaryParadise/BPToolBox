@@ -7,6 +7,7 @@ require_relative './lib/param'
 require_relative './lib/switch'
 require_relative './lib/confuse'
 require_relative './lib/image'
+require_relative './lib/pod'
 
 VERSION = "0.1.6"
 
@@ -26,6 +27,8 @@ class PBToolbox
       PBImage::new(param)
     elsif param.actionType.eql?(ACTION_TYPE_PREFIX)
       PBConfuse::new(param)
+    elsif param.actionType.eql?(ACTINO_TYPE_POD)
+      PBPodUtility::new(param)
     end
   end
 
