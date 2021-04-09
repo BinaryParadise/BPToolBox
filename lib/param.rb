@@ -71,7 +71,7 @@ class PBParam
     image         修改图片hash
     prefix        修改类目前缀,暂不支持内部类
     switch        切换App（马甲包）
-    pod           发布到私有仓库
+    pod           cocoapods
 
 选项:
     --config      配置文件目录（不带参数时，默认读取当前文件夹下的.toolbox.yml）

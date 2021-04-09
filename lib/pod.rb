@@ -3,6 +3,8 @@ require_relative './util'
 require 'json'
 require 'pathname'
 
+VERSION_REGEX = /(.version\s*=\s*")(\d+.\d+.\d+)(")/i
+
 class PBPodUtility
     def initialize(param)
         conf = "#{File.dirname(__FILE__)}/../pod.config.json"
@@ -48,13 +50,13 @@ class PBPodUtility
             PBUtil.error("[!] Unable to find a podspec in the working directory")
         else
             file_content = File.read(podspec)
-            file_content.scan(/version\s*=\s*"(\d.\d.\d)"/i) do|match|
-                puts PBUtil.warn("当前版本#{match[0]}")
+            file_content.scan(VERSION_REGEX) do|match|
+                puts PBUtil.warn("当前版本#{match[1]}")
             end
 
             print "请输入要发布的版本: \n"
             new_version = STDIN.gets.chomp
-            if new_version.nil? || new_version.scan(/(\d.\d.\d)/).length ==0 
+            if new_version.nil? || new_version.scan(/(\d+.\d+.\d+)/).length ==0 
                 puts PBUtil.error("版本号不符合规范，请重新输入!")
                 return
             end
@@ -63,11 +65,11 @@ class PBPodUtility
                 name = podspec.gsub(/.podspec/, '')
                 puts PBUtil.info("开始发布#{name}新版本[#{new_version}]")
                 File.open(podspec, "r+") do |aFile|
-                    aFile.syswrite(file_content.gsub(/(version\s*=\s*")(\d.\d.\d)(")/i, "\\1#{new_version}\\3"))
+                    aFile.syswrite(file_content.gsub(VERSION_REGEX, "\\1#{new_version}\\3"))
                 end
                 
-                if !File.exist?("~/.cocoapods/repos/#{repo}/#{name}")
-                    `mkdir ~/.cocoapods/repos/#{repo}/#{name}`
+                if !File.exist?("#{ENV['HOME']}/.cocoapods/repos/#{repo}/#{name}")
+                    `mkdir #{ENV['HOME']}/.cocoapods/repos/#{repo}/#{name}`
                 end
 
                 # 修改版本号，创建指定版本tag
@@ -81,14 +83,14 @@ class PBPodUtility
                 
                 # spec仓库增加指定版本podspc
                 `
-                cd ~/.cocoapods/repos/#{repo}/#{name}
+                cd #{ENV['HOME']}/.cocoapods/repos/#{repo}/#{name}
                 git pull
                 rm -rf #{new_version}
                 mkdir #{new_version}
-                cp -r #{Dir.pwd}/#{podspec} ~/.cocoapods/repos/#{repo}/#{name}/#{new_version}
+                cp -r #{Dir.pwd}/#{podspec} #{ENV['HOME']}/.cocoapods/repos/#{repo}/#{name}/#{new_version}
                 git add .
                 git commit -m '[Add] #{name} #{new_version}'
-                git push
+                # git push
                 `
                 puts PBUtil.debug("#{name} #{new_version} 发布成功")
             end
