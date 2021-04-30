@@ -60,8 +60,8 @@ class PBPodUtility
                 puts PBUtil.error("版本号不符合规范，请重新输入!")
                 return
             end
-            print "确认发布版本#{new_version}? [y:是 n：否]\n"
-            if STDIN.gets.chomp.eql?('y')
+            print "确认发布版本#{new_version}? [yN]\n"
+            if STDIN.gets.chomp.downcase.eql?('y')
                 name = podspec.gsub(/.podspec/, '')
                 puts PBUtil.info("开始发布#{name}新版本[#{new_version}]")
                 File.open(podspec, "r+") do |aFile|
@@ -84,6 +84,7 @@ class PBPodUtility
                 # spec仓库增加指定版本podspc
                 `
                 cd #{ENV['HOME']}/.cocoapods/repos/#{repo}/#{name}
+                git reset --hard
                 git pull
                 rm -rf #{new_version}
                 mkdir #{new_version}
