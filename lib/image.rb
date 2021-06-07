@@ -1,5 +1,6 @@
 require 'fileutils'
 require_relative './util'
+require_relative './param'
 require 'json'
 require 'xcodeproj'
 require 'pry'
@@ -8,8 +9,9 @@ require 'pry'
 # 图片工具
 # 2021-3-17
 class PBImage
-  def initialize(param)
-    if param.arrange
+  def initialize(options)
+    param = PBParam.new(options)
+    if options[:arrange]
       arrange(param)
     else
       imageReset(param)

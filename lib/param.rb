@@ -28,21 +28,11 @@ class PBParam
   attr_accessor:bundle  #App配置
   attr_accessor:arrange #整理
   attr_accessor:params #参数
-  def initialize(args)
+  def initialize(options)
     @ignorePaths = []
     @sourceFiles = []
     @prefixMap = Hash.new
-
-    @actionType = args[0]    
-    if [ACTINO_TYPE_POD].include?(@actionType)
-      @params = args[1,args.length-1]
-      return
-    end
-    if @actionType.nil? || ![ACTION_TYPE_IMAGE, ACTION_TYPE_SWITCH, ACTION_TYPE_PREFIX].include?(@actionType)
-      showUsage()
-      return
-    end
-    configPath = args[1].eql?(Arg_Name_ConfigPath) ? args[2] : '.toolbox.yml'
+    configPath = '.toolbox.yml'
     if configPath && File.exist?(configPath)
       properties = YAML.load_file(Pathname(configPath).to_path)
       @directory = properties['directory']
@@ -57,26 +47,9 @@ class PBParam
       @old_prefix = properties['prefix'].split("=").first
       @new_prefix = properties['prefix'].split("=").last
       @bundle = properties['bundle']
-      @arrange = args.include?("--arrange")
     else
-      puts PBUtil::error("缺少参数#{Arg_Name_ConfigPath}且者找不到默认文件.toolbox.yml #{Dir.pwd}",true)
-      PBParam::showUsage()
+      puts PBUtil::error("缺少配置文件.toolbox.yml in #{Dir.pwd}",true)
+      exit
     end
   end
-
-  def showUsage()
-    puts "用法: command #{PBUtil::warn('[选项]')}
-
-命令:
-    image         修改图片hash
-    prefix        修改类目前缀,暂不支持内部类
-    switch        切换App（马甲包）
-    pod           cocoapods
-
-选项:
-    --config      配置文件目录（不带参数时，默认读取当前文件夹下的.toolbox.yml）
-    --arrange     整理去重
-    "
-  end
-
 end

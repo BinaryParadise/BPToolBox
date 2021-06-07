@@ -1,6 +1,7 @@
 #!/usr/bin/ruby -w
 require 'fileutils'
 require_relative './util'
+require_relative './param'
 require 'json'
 require 'xcodeproj'
 
@@ -16,7 +17,8 @@ class PBConfuse
   attr_accessor:prefixMap
   attr_accessor:includeCategory
   attr_accessor:projectPath
-  def initialize(param)
+  def initialize(options)
+    param = PBParam.new(options)
     @prefixMap = param.prefixMap
     @sourceFiles = param.sourceFiles
     @includeCategory = param.includeCategory

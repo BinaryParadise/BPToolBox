@@ -3,35 +3,79 @@ require 'fileutils'
 require 'json'
 require 'yaml'
 require 'xcodeproj'
-require_relative './lib/param'
 require_relative './lib/switch'
 require_relative './lib/confuse'
 require_relative './lib/image'
 require_relative './lib/pod'
+require 'optparse/subcommand' # Also requires 'optparse'
+# require 'pry'
 
-VERSION = "0.1.9"
+VERSION = "0.2.0"
 
 # author: Rake Yang
-# iOS工具箱
+# iOS工具包
 # 2019-09-19
-class PBToolbox
-  def initialize(args)
-    if args[0].eql?('-v')
-      puts PBUtil.info("toolbox #{VERSION} (last commit 2019-11-11)")
-      return;
+
+options = {}
+optparse = OptionParser.new do|opt|
+  opt.banner = 'Usage: toolbox command [options]'
+
+  opt.subcommand 'pod' do |opts|
+    options[:repo] = true
+    opts.on('-r NAME', '--repo NAME', '设置spec仓库名称') do |name, p|
+      options[:name] = name
     end
-    param = PBParam::new(args)
-    if param.actionType.eql?(ACTION_TYPE_SWITCH)
-      PBSwitch::new(param)
-    elsif param.actionType.eql?(ACTION_TYPE_IMAGE)
-      PBImage::new(param)
-    elsif param.actionType.eql?(ACTION_TYPE_PREFIX)
-      PBConfuse::new(param)
-    elsif param.actionType.eql?(ACTINO_TYPE_POD)
-      PBPodUtility::new(param)
+
+    options[:pod] = false
+    opts.on('-p', '--publish', 'Pod仓库发布新版本') do |p|
+      options[:pod] = p
     end
   end
 
+  opt.subcommand 'confuse' do |opts|
+    options[:confuse] = true    
+    opts.on('-s', '--switch', '切换马甲包') do |p|
+      options[:switch] = p
+    end
+
+    opts.on('-r', '--rename', '混淆、重命名类名和文件名') do |p|
+      options[:rename] = p
+    end
+
+    opts.on('-b', '--rebuild', '重建图片哈希') do|p|
+      options[:image] = true
+      options[:build] = p
+    end
+    
+    opts.on('-a', '--arrange', '整理去重') do |p|
+      options[:image] = true
+      options[:arrange] = p
+    end
+  end
+
+  opt.on('-h', '--help', '显示帮助') do
+    puts opt
+    exit
+  end
 end
 
-PBToolbox::new(ARGV)
+args = ARGV.dup
+optparse.parse!
+if args.length <= 1
+  puts optparse
+  exit
+end
+
+if options[:pod]
+  PBPodUtility::new(options)
+end
+
+if options[:confuse]
+  if options[:switch]
+    PBSwitch::new(options)
+  elsif options[:image]
+    PBImage::new(options)
+  elsif options[:confuse]
+    PBConfuse::new(options)
+  end
+end

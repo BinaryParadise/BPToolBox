@@ -40,22 +40,16 @@ class PBPodUtility
         ["\n", playlist_obj.show_playlist, "\n当前版本: #{playlist_obj.cur.to_s} "].join("\n")
     end
 
-    def initialize(param)
+    def initialize(options)
         conf = "#{File.dirname(__FILE__)}/../pod.config.json"
-        params = param.params
-        if params.length == 0
-            showUsage()
-        else
-            action = params[0]
-            if action.eql?('repo')
-                setRepo(conf, params[1])
-            elsif action.eql?('publish')
-                if File::exist?(conf)
-                    config = JSON.parse(File.read(conf))
-                    publish(config['repo'])                
-                else
-                    puts PBUtil::error("请先设置repo名称")
-                end
+        if options[:repo]
+            setRepo(conf, options[:name])
+        elsif options[:pod]
+            if File::exist?(conf)
+                config = JSON.parse(File.read(conf))
+                publish(config['repo'])                
+            else
+                puts PBUtil::error("请先设置repo名称")
             end
         end
     end
@@ -123,7 +117,7 @@ class PBPodUtility
                 return
             end
             new_version = pd.newVer()
-            puts PBUtil.warn("确认发布版本#{new_version.to_s}? [yN]\n")
+            puts PBUtil.warn("确认发布版本#{new_version.to_s}到`#{repo}`? [yN]\n")
             if STDIN.gets.chomp.downcase.eql?('y')
                 name = podspec.gsub(/.podspec/, '')
                 puts PBUtil.info("开始发布#{name}新版本[#{new_version}]")

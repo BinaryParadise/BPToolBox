@@ -1,6 +1,7 @@
 #!/usr/bin/ruby -w
 require 'fileutils'
 require_relative './util'
+require_relative './param'
 require 'json'
 require 'xcodeproj'
 
@@ -8,8 +9,8 @@ require 'xcodeproj'
 # 切换App配置
 # 2019-10-29
 class PBSwitch
-  def initialize(param)
-    doAction(param)
+  def initialize(options)
+    doAction(PBParam.new(options))
   end
 
   def doAction(param)
@@ -23,7 +24,7 @@ class PBSwitch
   end
 
   def choose(max)
-    puts PBUtil.info("请选择[1-#{max}]:")
+    puts PBUtil.info("请选择App[1-#{max}]:")
     toidx = Integer(STDIN.gets)
     if toidx < 1 || toidx > max
       puts PBUtil.error("输出错误，请重试")
